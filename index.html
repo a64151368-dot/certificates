@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Алла Сіянко — Об'ємна хмара категорій атестації (2022–2027)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=Unbounded:wght@800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 50% 50%, #ffffff 0%, #f1f5f9 60%, #e2e8f0 100%);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --card-bg: rgba(255, 255, 255, 0.75);
+      --card-border: rgba(255, 255, 255, 0.9);
+      --drawer-bg: #ffffff;
+      --accent-blue: #0284c7;
+      --accent-purple: #7e22ce;
+      --shadow-3d: 0 12px 30px -5px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid #e2e8f0;
+      z-index: 10;
+    }
+
+    .title-box h1 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #0284c7, #7e22ce, #e11d48);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .title-box p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 700;
+    }
+
+    /* Сцена хмари */
+    #cloud-stage {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Однакові великі напівпрозорі плашки з 3D об'ємом */
+    .cloud-card {
+      position: absolute;
+      width: 220px;
+      height: 95px;
+      padding: 12px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      border: 2px solid rgba(255, 255, 255, 0.95);
+      box-shadow: var(--shadow-3d);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                  box-shadow 0.3s ease, 
+                  background 0.3s ease,
+                  border-color 0.3s ease;
+      z-index: 5;
+    }
+
+    .cloud-card-text {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 900;
+      line-height: 1.35;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      word-wrap: break-word;
+      white-space: normal;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+    }
+
+    .cloud-card:hover {
+      transform: translate(-50%, -50%) scale(1.12) !important;
+      z-index: 50 !important;
+      background: rgba(255, 255, 255, 0.98);
+      border-color: var(--accent-purple);
+      box-shadow: 0 20px 40px -10px rgba(126, 34, 206, 0.3), 
+                  0 0 20px rgba(126, 34, 206, 0.2);
+    }
+
+    /* Центральна галерея: зображення перехресно змінюються без мигання */
+    .center-showcase {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(360px, 38vw);
+      height: min(280px, 34vh);
+      min-width: 220px;
+      min-height: 170px;
+      padding: 8px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 255, 255, 0.96);
+      box-shadow: 0 25px 50px -12px rgba(2, 132, 199, 0.25);
+      z-index: 2;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .showcase-image {
+      position: absolute;
+      inset: 8px;
+      width: calc(100% - 16px);
+      height: calc(100% - 16px);
+      object-fit: contain;
+      object-position: center;
+      opacity: 0;
+      transition: opacity 900ms ease-in-out;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .showcase-image.is-visible { opacity: 1; }
+
+
+    /* --- Насичене градієнтне оформлення вікна сертифікатів --- */
+    .drawer {
+      background:
+        radial-gradient(ellipse at 100% 0%, rgba(196, 181, 253, 0.42) 0%, transparent 42%),
+        radial-gradient(ellipse at 0% 100%, rgba(125, 211, 252, 0.34) 0%, transparent 45%),
+        linear-gradient(145deg, #f8fbff 0%, #f1f5ff 38%, #fff7fb 72%, #f0f9ff 100%);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      border-left: 3px solid rgba(129, 140, 248, 0.72);
+      border-radius: 26px 0 0 26px;
+      padding: 0;
+      box-shadow:
+        -24px 0 65px rgba(49, 46, 129, 0.17),
+        -6px 0 22px rgba(14, 165, 233, 0.10),
+        inset 1px 0 0 rgba(255, 255, 255, 0.95);
+      overflow: hidden;
+    }
+
+    .drawer-header {
+      padding: 26px 28px;
+      background:
+        linear-gradient(115deg, rgba(224, 242, 254, 0.96) 0%, rgba(237, 233, 254, 0.94) 52%, rgba(252, 231, 243, 0.92) 100%);
+      border-bottom: 1px solid rgba(129, 140, 248, 0.28);
+      box-shadow: 0 8px 24px rgba(79, 70, 229, 0.07);
+    }
+
+    .drawer-header h2 {
+      color: #4338ca;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
+    }
+
+    .drawer-content {
+      padding: 26px 24px 32px;
+      gap: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.06));
+      scrollbar-color: #a5b4fc rgba(224, 231, 255, 0.5);
+      scrollbar-width: thin;
+    }
+
+    .drawer-content::-webkit-scrollbar {
+      width: 9px;
+    }
+
+    .drawer-content::-webkit-scrollbar-track {
+      background: rgba(224, 231, 255, 0.45);
+      border-radius: 12px;
+    }
+
+    .drawer-content::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #818cf8, #38bdf8);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
+    }
+
+    .cert-card {
+      padding: 20px;
+      border: 1px solid rgba(165, 180, 252, 0.42);
+      border-radius: 18px;
+      background: linear-gradient(140deg, rgba(255,255,255,0.96), rgba(239,246,255,0.88) 58%, rgba(250,245,255,0.92));
+      box-shadow:
+        0 12px 28px rgba(67, 56, 202, 0.08),
+        0 3px 8px rgba(15, 23, 42, 0.04),
+        inset 0 1px 0 rgba(255,255,255,0.98);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .cert-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(129, 140, 248, 0.72);
+      box-shadow:
+        0 16px 32px rgba(67, 56, 202, 0.13),
+        0 0 0 3px rgba(255,255,255,0.78),
+        inset 0 1px 0 rgba(255,255,255,1);
+    }
+
+    .cert-card-title {
+      color: #172554;
+      font-size: 1rem;
+    }
+
+    .cert-card-info {
+      color: #52627a;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 600px) {
+      .drawer {
+        width: 100%;
+        max-width: none;
+        border-radius: 22px 0 0 22px;
+      }
+      .drawer-header {
+        padding: 20px 18px;
+      }
+      .drawer-content {
+        padding: 18px 14px 24px;
+      }
+      .cert-card {
+        padding: 17px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .center-showcase {
+        width: min(78vw, 340px);
+        height: min(34vh, 250px);
+        min-width: 0;
+        min-height: 150px;
+      }
+    }
+
+    .showcase-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-blue);
+      background: rgba(2, 132, 199, 0.1);
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    .showcase-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.4;
+    }
+
+    .showcase-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Бічна панель (Drawer) */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+    }
+
+    .drawer-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: -560px;
+      width: 100%;
+      max-width: 520px;
+      height: 100%;
+      background: var(--drawer-bg);
+      border-left: 2px solid #e2e8f0;
+      box-shadow: -15px 0 40px rgba(0, 0, 0, 0.1);
+      z-index: 1001;
+      transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer.open {
+      right: 0;
+    }
+
+    .drawer-header {
+      padding: 24px;
+      border-bottom: 2px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+    }
+
+    .drawer-header h2 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 1.1rem;
+      color: var(--accent-blue);
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .btn-close {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-close:hover {
+      background: #e11d48;
+      color: #ffffff;
+      border-color: #e11d48;
+    }
+
+    .drawer-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .cert-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      user-select: text;
+    }
+
+    .cert-card-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      line-height: 1.4;
+      color: #0f172a;
+    }
+
+    .cert-card-info {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-weight: 700;
+    }
+
+    .badge-status {
+      display: inline-block;
+      align-self: flex-start;
+      margin-top: 4px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .status-ok {
+      background: rgba(22, 163, 74, 0.12);
+      color: #15803d;
+      border: 1px solid rgba(22, 163, 74, 0.3);
+    }
+
+    .status-info {
+      background: rgba(2, 132, 199, 0.12);
+      color: #0369a1;
+      border: 1px solid rgba(2, 132, 199, 0.3);
+    }
+
+    footer {
+      padding: 12px;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      border-top: 2px solid #e2e8f0;
+      background: rgba(255, 255, 255, 0.9);
+      font-weight: 700;
+    }
+
+
+    /* --- Premium 3D depth: category tiles in front, rotating artwork behind --- */
+    #cloud-stage {
+      isolation: isolate;
+      perspective: 1400px;
+      perspective-origin: 50% 46%;
+      overflow: hidden;
+    }
+
+    /* Artwork is the background layer; category tiles remain the foreground layer. */
+    .center-showcase {
+      z-index: 1;
+      width: min(440px, 42vw);
+      height: min(330px, 39vh);
+      min-width: 220px;
+      min-height: 170px;
+      border: 1px solid rgba(255, 255, 255, 0.96);
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(255,255,255,.76), rgba(226,232,240,.48));
+      box-shadow:
+        0 32px 70px -24px rgba(30, 64, 175, .28),
+        0 12px 28px rgba(15, 23, 42, .12),
+        inset 0 1px 0 rgba(255,255,255,.95);
+      transform: translate(-50%, -50%) translateZ(-70px) scale(.94);
+      filter: saturate(.9);
+    }
+
+    .center-showcase::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      border-radius: inherit;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.16), transparent 48%, rgba(148,163,184,.08));
+    }
+
+    .showcase-image {
+      border-radius: 20px;
+      opacity: 0;
+      filter: drop-shadow(0 8px 16px rgba(15,23,42,.10));
+    }
+
+    .cloud-card {
+      z-index: 5;
+      transform: translate(-50%, -50%) translateZ(45px);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.97), rgba(248,250,252,.88));
+      border: 1px solid rgba(255,255,255,.98);
+      box-shadow:
+        0 18px 32px -12px rgba(15,23,42,.24),
+        0 6px 14px rgba(15,23,42,.09),
+        inset 0 1px 0 rgba(255,255,255,1),
+        inset 0 -2px 0 rgba(148,163,184,.10);
+      backdrop-filter: blur(18px) saturate(1.12);
+      -webkit-backdrop-filter: blur(18px) saturate(1.12);
+      transition:
+        transform .32s cubic-bezier(.2,.8,.2,1),
+        box-shadow .32s ease,
+        background .32s ease,
+        border-color .32s ease,
+        filter .32s ease;
+    }
+
+    .cloud-card::before {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 14px;
+      pointer-events: none;
+      border: 1px solid rgba(255,255,255,.82);
+      box-shadow: inset 0 1px 5px rgba(255,255,255,.7);
+    }
+
+    .cloud-card-text {
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 1px 0 rgba(255,255,255,.95);
+    }
+
+    .cloud-card:hover {
+      transform: translate(-50%, -50%) translateZ(75px) scale(1.08) !important;
+      background: linear-gradient(145deg, #ffffff, #f5f3ff);
+      box-shadow:
+        0 28px 48px -12px rgba(49,46,129,.28),
+        0 0 0 3px rgba(255,255,255,.9),
+        0 0 26px rgba(99,102,241,.24),
+        inset 0 1px 0 #ffffff;
+      filter: saturate(1.08);
+    }
+
+    .drawer {
+      box-shadow: -22px 0 55px rgba(15,23,42,.16);
+      border-left: 1px solid rgba(226,232,240,.95);
+    }
+
+    .cert-card {
+      box-shadow: 0 8px 22px rgba(15,23,42,.045), inset 0 1px 0 rgba(255,255,255,.95);
+    }
+
+    @media (max-width: 600px) {
+      #cloud-stage {
+        perspective: 1000px;
+      }
+      .center-showcase {
+        width: min(78vw, 340px);
+        height: min(34vh, 250px);
+        min-width: 0;
+        min-height: 150px;
+        transform: translate(-50%, -50%) translateZ(-45px) scale(.94);
+      }
+      .cloud-card {
+        width: min(220px, 43vw);
+        height: 88px;
+      }
+      .cloud-card-text {
+        font-size: .76rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cloud-card,
+      .showcase-image {
+        transition-duration: .01ms !important;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="title-box">
+      <h1>Алла Сіянко — Атестаційний реєстр (2022–2027)</h1>
+      <p>Інтерактивна об'ємна хмара категорій сертифікатів</p>
+    </div>
+  </header>
+
+  <div id="cloud-stage">
+    <!-- Центральна галерея ілюстрацій із GitHub -->
+    <div class="center-showcase" id="center-showcase" aria-label="Випадкова галерея ілюстрацій">
+      <img class="showcase-image is-visible" id="showcase-image-a" alt="Ілюстрація з портфоліо" decoding="async" fetchpriority="high">
+      <img class="showcase-image" id="showcase-image-b" alt="Ілюстрація з портфоліо" decoding="async">
+    </div>
+  </div>
+
+  <div class="drawer-overlay" id="overlay" onclick="closeDrawer()"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-header">
+      <h2 id="drawer-title">Категорія</h2>
+      <button class="btn-close" onclick="closeDrawer()">✕</button>
+    </div>
+    <div class="drawer-content" id="drawer-body"></div>
+  </div>
+
+  <footer>
+    Натисніть на будь-яку об'ємну плашку категорії для перегляду усіх сертифікатів
+  </footer>
+
+  <script>
+    const data = {
+      "Фізика": [
+        { date: "30.01.2026", title: "Організація освітнього процесу з фізики та астрономії в умовах реформ НУШ", organizer: "КЗВО «ДАНО»", doc: "№ ДН 41682253/018", hours: "60 год / 1.5 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "14.03.2025", title: "Сучасні цифрові технології в навчанні фізики", organizer: "КЗВО «ДАНО»", doc: "№ ДН 41682253/9105", hours: "30 год / 1 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "13.05.2026", title: "Тьюторський підхід у надолуженні знань та навичок", organizer: "ГО «Навчай для України»", doc: "№ ТПм 30/18032026", hours: "10.5 год / 0.35 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "16.12.2025", title: "Тренінг «Тьюторський підхід у надолуженні знань та навичок»", organizer: "ГО «Навчай для України»", doc: "№ ТП 18/29102025", hours: "10.5 год / 0.35 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "21.09.2025", title: "Тренінг «Тьюторський підхід у надолуженні знань та навичок»", organizer: "ГО «Навчай для України»", doc: "ТП 23/060925", hours: "15 год / 0.5 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "19.05.2025", title: "Навчання з програми «Вчитель з тьюторськими компетенціями»", organizer: "ГО «Навчай для України»", doc: "04917", hours: "10.5 год / 0.35 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "15.01.2025", title: "Тьюторинговий catch-up у середній школі", organizer: "ГО «Навчай для України»", doc: "№ 04181", hours: "24 год / 0.8 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "26.11.2024", title: "Тренінг «Вчитель з тьюторськими компетенціями»", organizer: "ГО «Навчай для України»", doc: "№ 03449", hours: "7.5 год / 0.25 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "23.11.2024", title: "VI Міжнародний Конгрес Тьюторингу", organizer: "International Academy of Tutoring", doc: "No 03332", hours: "13 год / 0.4 ЄКТС", status: "ПІДТВЕРДЖЕНО наказом № 25-од" },
+        { date: "19.07.2024", title: "Тренінг «Вчитель з тьюторськими компетенціями»", organizer: "ГО «Навчай для України»", doc: "№ 2470", hours: "43.5 год / 1.45 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "09.05.2024", title: "Тренінг «Вчитель з тьюторськими компетенціями»", organizer: "ГО «Навчай для України»", doc: "№ 02093", hours: "49.5 год / 1.7 ЄКТС", status: "Потребує перевірки" },
+        { date: "27.08.2025", title: "Вебінар «Як підготуватися до нового навчального року з ШІ»", organizer: "POWERED", doc: "№ 69653-0029", hours: "3 год / 0.1 ЄКТС", status: "Реєстр ЄАС" }
+      ],
+      "Математика": [
+        { date: "17.04.2026", title: "Організація освітнього процесу з математики у 10-11 класах (НУШ)", organizer: "КЗВО «ДАНО» ДОР", doc: "№ ДН 41682253/11446", hours: "60 год / 2 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "09.03.2026", title: "Математики в умовах НУШ 5-6, 7-9 клас", organizer: "Інститут спеціальної педагогіки НАПН", doc: "№ GEN-4594319", hours: "30 год / 1 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "29.08.2025", title: "Математика (інтегр. курс): компетентнісний підхід у викладанні", organizer: "ТОВ «Генеза»", doc: "№ GEN-4563850", hours: "3 год / 0.1 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "13.05.2026", title: "Тьюторський підхід у надолуженні знань та навичок", organizer: "ГО «Навчай для України»", doc: "№ ТПм 30/18032026", hours: "10.5 год / 0.35 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "16.12.2025", title: "Тренінг «Тьюторський підхід у надолуженні знань та навичок»", organizer: "ГО «Навчай для України»", doc: "№ ТП 18/29102025", hours: "10.5 год / 0.35 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "21.09.2025", title: "Тренінг «Тьюторський підхід у надолуженні знань та навичок»", organizer: "ГО «Навчай для України»", doc: "ТП 23/060925", hours: "15 год / 0.5 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "19.05.2025", title: "Навчання з програми «Вчитель з тьюторськими компетенціями»", organizer: "ГО «Навчай для України»", doc: "04917", hours: "10.5 год / 0.35 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "15.01.2025", title: "Тьюторинговий catch-up у середній школі", organizer: "ГО «Навчай для України»", doc: "№ 04181", hours: "24 год / 0.8 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "23.11.2024", title: "VI Міжнародний Конгрес Тьюторингу", organizer: "International Academy of Tutoring", doc: "No 03332", hours: "13 год / 0.4 ЄКТС", status: "ПІДТВЕРДЖЕНО наказом № 25-од" }
+      ],
+      "Психологічна підготовка": [
+        { date: "08.06.2026", title: "Використання цифрових інструментів для створення комфортного середовища", organizer: "Спільнота вчителів і психологів", doc: "№ DCI-08062026-169", hours: "15 год / 0.5 ЄКТС", status: "ПІДТВЕРДЖЕНО наказом № 25-од" },
+        { date: "01.02.2025", title: "Навчання технік зцілення для батьків та спеціалістів", organizer: "ГО «ВГЦ «Волонтер»", doc: "№15/0602(2)о", hours: "12 год / 0.4 ЄКТС", status: "ПІДТВЕРДЖЕНО наказом № 25-од" },
+        { date: "05.04.2024", title: "Онлайн-форум “Розвиток soft skills в сучасній школі”", organizer: "МАН України", doc: "1720723236180082", hours: "12 год / 0.4 ЄКТС", status: "ПІДТВЕРДЖЕНО наказом № 25-од" },
+        { date: "31.07.2023", title: "Перша психологічна допомога учасникам освітнього процесу", organizer: "HR You", doc: "№ 45202353", hours: "0.1 год / 1 ЄКТС", status: "Реєстр ЄАС" }
+      ],
+      "Інклюзія": [
+        { date: "17.05.2026", title: "Квест-курс «Освіта без дискримінації»", organizer: "ГО «ЕдКемп Україна»", doc: "№ 0042-01496-2026-124797", hours: "30 год / 0.8 ЄКТС", status: "ПІДТВЕРДЖЕНО наказом № 25-од" },
+        { date: "27.05.2025", title: "Інклюзивна гуманітарна допомога", organizer: "Зрозуміло! / Фонд Східна Європа", doc: "9e74416237204f89a389a457b1a19dd2", hours: "6 год / 0.2 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "07.05.2025", title: "Долаємо гендерні стереотипи", organizer: "ГО \"Ла Страда-Україна\"", doc: "№ 13079-т/2025", hours: "2.7 год / 0.09 ЄКТС", status: "Потребує перевірки" },
+        { date: "18.05.2024", title: "Вебінар \"Гендерна компетентність вчительства\"", organizer: "Центр гендерної культури", doc: "№ ГК-854", hours: "3 год / 0.1 ЄКТС", status: "Потребує перевірки" },
+        { date: "28.01.2022", title: "Базовий курс \"Безбар’єрна грамотність\"", organizer: "Мінцифра \"Дія\"", doc: "# С 0 0 3 7 0 5 0 6 2 3", hours: "6 год / 0.2 ЄКТС", status: "Потребує перевірки" }
+      ],
+      "Медіаосвіта": [
+        { date: "02.10.2026", title: "Цифрова зрілість закладу освіти (SELFIE проєкт)", organizer: "КЗВО «ДАНО» ДОР", doc: "№ ДН 41682253/18808", hours: "30 год / 1 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "08.08.2026", title: "Інтерактивні робочі аркуші з ШІ: новий методичний рівень", organizer: "Платформа «УМІТИ»", doc: "№ 132687", hours: "2 год / 0.06 ЄКТС", status: "ПІДТВЕРДЖЕНО наказом № 25-од" },
+        { date: "02.12.2024", title: "Штучний інтелект для занять у школі та позашкіллі", organizer: "МАН України", doc: "№ 011441", hours: "30 год / 1 ЄКТС", status: "ПІДТВЕРДЖЕНО наказом № 25-од" },
+        { date: "26.09.2024", title: "Zoom-тренінг \"Найкращі віртуальні онлайн-дошки\"", organizer: "Платформа \"Уміти\"", doc: "№ 126680", hours: "2 год / 0.06 ЄКТС", status: "ПІДТВЕРДЖЕНО наказом № 25-од" }
+      ],
+      "Домедична допомога": [
+        { date: "31.07.2023", title: "Онлайн-курс «Перша домедична допомога в умовах надзвичайних ситуацій»", organizer: "HR You", doc: "№ 45202353", hours: "30 год / 1 ЄКТС", status: "Реєстр ЄАС" }
+      ],
+      "Академічна доброчесність": [],
+      "Мовленнєва компетентність": [
+        { date: "17.04.2026", title: "Організація освітнього процесу з математики у 10-11 класах (НУШ)", organizer: "КЗВО «ДАНО» ДОР", doc: "№ ДН 41682253/11446", hours: "60 год / 2 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "09.03.2026", title: "Математики в умовах НУШ 5-6, 7-9 клас", organizer: "Інститут спеціальної педагогіки НАПН", doc: "№ GEN-4594319", hours: "30 год / 1 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "30.01.2026", title: "Організація освітнього процесу з фізики та астрономії в умовах реформ НУШ", organizer: "КЗВО \"ДАНО\"", doc: "ДН 41682253/018", hours: "60 год / 1.5 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "06.12.2023", title: "Онлайн-курс «Єдина Україна: становлення національної ідентичності»", organizer: "Зрозуміло!", doc: "61ea77f293944749ab9832f41d51d95", hours: "6 год / 0.2 ЄКТС", status: "ПІДТВЕРДЖЕНО наказом № 25-од" }
+      ],
+      "Цифрова компетентність": [
+        { date: "02.10.2026", title: "Цифрова зрілість закладу освіти (SELFIE проєкт)", organizer: "КЗВО «ДАНО» ДОР", doc: "№ ДН 41682253/18808", hours: "30 год / 1 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "08.08.2026", title: "Інтерактивні робочі аркуші з ШІ: новий методичний рівень", organizer: "Платформа «УМІТИ»", doc: "№ 132687", hours: "2 год / 0.06 ЄКТС", status: "ПІДТВЕРДЖЕНО наказом № 25-од" },
+        { date: "07.07.2024", title: "Тренінг з навчання вчителів тьюторським інструментам («Тьюторинговий catch-up»)", organizer: "ГО «Навчай для України»", doc: "Nº 22.07", hours: "30 год / 1 ЄКТС", status: "Реєстр ЄАС" },
+        { date: "02.12.2024", title: "Штучний інтелект для занять у школі та позашкіллі", organizer: "МАН України", doc: "№ 011441", hours: "30 год / 1 ЄКТС", status: "ПІДТВЕРДЖЕНО наказом № 25-од" }
+      ]
+    };
+
+    const categories = [
+      { name: "Фізика", color: "#0284c7" },
+      { name: "Математика", color: "#b91c1c" },
+      { name: "Цифрова<br>компетентність", rawName: "Цифрова компетентність", color: "#0369a1" },
+      { name: "Психологічна<br>підготовка", rawName: "Психологічна підготовка", color: "#d97706" },
+      { name: "Медіаосвіта", color: "#7e22ce" },
+      { name: "Інклюзія", color: "#059669" },
+      { name: "Мовленнєва<br>компетентність", rawName: "Мовленнєва компетентність", color: "#4f46e5" },
+      { name: "Академічна<br>доброчесність", rawName: "Академічна доброчесність", color: "#0891b2" },
+      { name: "Домедична<br>допомога", rawName: "Домедична допомога", color: "#e11d48" }
+    ];
+
+    function buildCloud() {
+      const stage = document.getElementById('cloud-stage');
+      const centerBox = document.getElementById('center-showcase');
+      stage.innerHTML = '';
+      stage.appendChild(centerBox);
+
+      const w = stage.clientWidth || window.innerWidth;
+      const h = stage.clientHeight || (window.innerHeight - 100);
+
+      const centerX = w / 2;
+      const centerY = h / 2;
+
+      // Розширені еліптичні радіуси для повного запобігання перекриттям
+      const rx = Math.min(w * 0.40, 460);
+      const ry = Math.min(h * 0.38, 260);
+
+      categories.forEach((cat, idx) => {
+        const card = document.createElement('div');
+        card.className = 'cloud-card';
+        
+        const keyName = cat.rawName || cat.name.replace('<br>', ' ');
+        card.style.borderColor = cat.color;
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'cloud-card-text';
+        textSpan.innerHTML = cat.name;
+        textSpan.style.color = cat.color;
+        card.appendChild(textSpan);
+
+        // Зміщення кута для підняття верхніх плашок (зокрема мовленнєвої компетентності) вище від центру
+        let angle = (idx / categories.length) * Math.PI * 2 - (Math.PI / 2);
+        if (cat.name.includes("Мовленнєва")) {
+          angle -= 0.18; // делікатне зміщення вгору
+        }
+
+        const x = centerX + Math.cos(angle) * rx;
+        const y = centerY + Math.sin(angle) * ry;
+
+        card.style.left = x + 'px';
+        card.style.top = y + 'px';
+
+        card.addEventListener('click', (e) => {
+          e.stopPropagation();
+          showCategory(keyName);
+        });
+
+        stage.appendChild(card);
+      });
+    }
+
+    function startRandomShowcase() {
+      // Публічні raw-файли з GitHub. Репозиторій має бути доступним публічно.
+      const imageUrls = [1, 2, 3, 4, 5].map(
+        number => `https://raw.githubusercontent.com/a64151368-dot/certificates/main/${number}.png`
+      );
+      const slides = [
+        document.getElementById('showcase-image-a'),
+        document.getElementById('showcase-image-b')
+      ];
+      let visibleIndex = -1;
+      let lastImageIndex = -1;
+      let isSwitching = false;
+
+      function pickRandomIndex() {
+        if (imageUrls.length < 2) return 0;
+        let next;
+        do {
+          next = Math.floor(Math.random() * imageUrls.length);
+        } while (next === lastImageIndex);
+        lastImageIndex = next;
+        return next;
+      }
+
+      function showNextImage() {
+        if (isSwitching || imageUrls.length === 0) return;
+        isSwitching = true;
+        const nextIndex = pickRandomIndex();
+        const nextSlideIndex = visibleIndex === 0 ? 1 : 0;
+        const nextSlide = slides[nextSlideIndex];
+        const preload = new Image();
+        preload.decoding = 'async';
+
+        // Спочатку повністю завантажуємо наступний файл у пам'ять.
+        // Поточне зображення лишається видимим, якщо завантаження не вдалося.
+        preload.onload = () => {
+          nextSlide.onload = null;
+          nextSlide.onerror = null;
+          nextSlide.src = preload.src;
+          nextSlide.classList.add('is-visible');
+          if (visibleIndex !== -1) slides[visibleIndex].classList.remove('is-visible');
+          visibleIndex = nextSlideIndex;
+          isSwitching = false;
+        };
+        preload.onerror = () => {
+          console.warn(`Не вдалося завантажити ілюстрацію: ${imageUrls[nextIndex]}`);
+          isSwitching = false;
+          // Спробувати інший файл під час наступного циклу, не прибираючи поточне зображення.
+        };
+        preload.src = imageUrls[nextIndex];
+      }
+
+      // Показуємо першу картинку одразу після її завантаження, без порожнього кадру.
+      showNextImage();
+      // Періодичне перемикання; час можна змінити, не торкаючись решти функціоналу.
+      window.setInterval(showNextImage, 5000);
+    }
+
+    function showCategory(catName) {
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('overlay');
+      const title = document.getElementById('drawer-title');
+      const body = document.getElementById('drawer-body');
+
+      const items = data[catName] || [];
+      title.innerText = `${catName} (${items.length} документів)`;
+      body.innerHTML = '';
+
+      if (items.length === 0) {
+        body.innerHTML = '<div style="text-align:center; padding:40px; color:#64748b; font-weight:700;">Записи у цій категорії знаходяться на стадії опрацювання.</div>';
+      } else {
+        items.forEach(item => {
+          const isOk = (item.status || "").includes('ПІДТВЕРДЖЕНО');
+          const card = document.createElement('div');
+          card.className = 'cert-card';
+          card.innerHTML = `
+            <div class="cert-card-title">${item.title}</div>
+            <div class="cert-card-info">
+              <span>📅 Дата: ${item.date}</span>
+              <span>⏱️ Обсяг: ${item.hours}</span>
+              <span>🏫 Організатор: ${item.organizer}</span>
+              <span>📄 Документ: ${item.doc}</span>
+            </div>
+            <div class="badge-status ${isOk ? 'status-ok' : 'status-info'}">
+              ${item.status}
+            </div>
+          `;
+          body.appendChild(card);
+        });
+      }
+
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+    }
+
+    function closeDrawer() {
+      document.getElementById('drawer').classList.remove('open');
+      document.getElementById('overlay').classList.remove('open');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      buildCloud();
+      startRandomShowcase();
+    });
+    window.addEventListener('resize', buildCloud);
+  </script>
+</body>
+</html>
