@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Алла Сіянко — Об'ємна хмара категорій атестації (2022–2027)</title>
+  <title>Атестаційний реєстр (2022–2027)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=Unbounded:wght@800;900&display=swap" rel="stylesheet">
@@ -38,33 +38,6 @@
       flex-direction: column;
     }
 
-    header {
-      padding: 16px 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 2px solid #e2e8f0;
-      z-index: 10;
-    }
-
-    .title-box h1 {
-      font-family: 'Unbounded', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, #0284c7, #7e22ce, #e11d48);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .title-box p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-      font-weight: 700;
-    }
-
     /* Сцена хмари */
     #cloud-stage {
       flex: 1;
@@ -72,6 +45,9 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
+      isolation: isolate;
+      perspective: 1400px;
+      perspective-origin: 50% 46%;
     }
 
     /* Однакові великі напівпрозорі плашки з 3D об'ємом */
@@ -81,20 +57,23 @@
       height: 95px;
       padding: 12px;
       border-radius: 20px;
-      background: rgba(255, 255, 255, 0.75);
+      background: linear-gradient(145deg, rgba(255,255,255,.97), rgba(248,250,252,.88));
       backdrop-filter: blur(16px);
       border: 2px solid rgba(255, 255, 255, 0.95);
-      box-shadow: var(--shadow-3d);
+      box-shadow:
+        0 18px 32px -12px rgba(15,23,42,.24),
+        0 6px 14px rgba(15,23,42,.09),
+        inset 0 1px 0 rgba(255,255,255,1);
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       cursor: pointer;
-      transform: translate(-50%, -50%);
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                  box-shadow 0.3s ease, 
-                  background 0.3s ease,
-                  border-color 0.3s ease;
+      transform: translate(-50%, -50%) translateZ(45px);
+      transition: transform 0.32s cubic-bezier(.2,.8,.2,1), 
+                  box-shadow 0.32s ease, 
+                  background 0.32s ease,
+                  border-color 0.32s ease;
       z-index: 5;
     }
 
@@ -108,188 +87,114 @@
       word-wrap: break-word;
       white-space: normal;
       text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+      position: relative;
+      z-index: 1;
     }
 
     .cloud-card:hover {
-      transform: translate(-50%, -50%) scale(1.12) !important;
+      transform: translate(-50%, -50%) translateZ(75px) scale(1.08) !important;
       z-index: 50 !important;
-      background: rgba(255, 255, 255, 0.98);
+      background: linear-gradient(145deg, #ffffff, #f5f3ff);
       border-color: var(--accent-purple);
-      box-shadow: 0 20px 40px -10px rgba(126, 34, 206, 0.3), 
-                  0 0 20px rgba(126, 34, 206, 0.2);
+      box-shadow:
+        0 28px 48px -12px rgba(49,46,129,.28),
+        0 0 0 3px rgba(255,255,255,.9),
+        0 0 26px rgba(99,102,241,.24);
     }
 
-    /* Центральна галерея: зображення перехресно змінюються без мигання */
+    /* Центральна галерея */
     .center-showcase {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
-      width: min(360px, 38vw);
-      height: min(280px, 34vh);
+      transform: translate(-50%, -50%) translateZ(-70px) scale(.94);
+      width: min(440px, 42vw);
+      height: min(340px, 40vh);
       min-width: 220px;
-      min-height: 170px;
+      min-height: 200px;
       padding: 8px;
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.82);
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(255,255,255,.76), rgba(226,232,240,.48));
       backdrop-filter: blur(12px);
-      border: 2px solid rgba(255, 255, 255, 0.96);
-      box-shadow: 0 25px 50px -12px rgba(2, 132, 199, 0.25);
-      z-index: 2;
+      border: 1px solid rgba(255, 255, 255, 0.96);
+      box-shadow:
+        0 32px 70px -24px rgba(30, 64, 175, .28),
+        0 12px 28px rgba(15, 23, 42, .12),
+        inset 0 1px 0 rgba(255,255,255,.95);
+      z-index: 1;
       overflow: hidden;
       isolation: isolate;
     }
 
     .showcase-image {
       position: absolute;
-      inset: 8px;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 50px;
       width: calc(100% - 16px);
-      height: calc(100% - 16px);
+      height: calc(100% - 58px);
       object-fit: contain;
       object-position: center;
       opacity: 0;
       transition: opacity 900ms ease-in-out;
       z-index: 1;
       pointer-events: none;
+      filter: drop-shadow(0 8px 16px rgba(15,23,42,.10));
     }
 
     .showcase-image.is-visible { opacity: 1; }
 
-
-    /* --- Насичене градієнтне оформлення вікна сертифікатів --- */
-    .drawer {
-      background:
-        radial-gradient(ellipse at 100% 0%, rgba(196, 181, 253, 0.42) 0%, transparent 42%),
-        radial-gradient(ellipse at 0% 100%, rgba(125, 211, 252, 0.34) 0%, transparent 45%),
-        linear-gradient(145deg, #f8fbff 0%, #f1f5ff 38%, #fff7fb 72%, #f0f9ff 100%);
-      border: 1px solid rgba(255, 255, 255, 0.95);
-      border-left: 3px solid rgba(129, 140, 248, 0.72);
-      border-radius: 26px 0 0 26px;
-      padding: 0;
-      box-shadow:
-        -24px 0 65px rgba(49, 46, 129, 0.17),
-        -6px 0 22px rgba(14, 165, 233, 0.10),
-        inset 1px 0 0 rgba(255, 255, 255, 0.95);
-      overflow: hidden;
-    }
-
-    .drawer-header {
-      padding: 26px 28px;
-      background:
-        linear-gradient(115deg, rgba(224, 242, 254, 0.96) 0%, rgba(237, 233, 254, 0.94) 52%, rgba(252, 231, 243, 0.92) 100%);
-      border-bottom: 1px solid rgba(129, 140, 248, 0.28);
-      box-shadow: 0 8px 24px rgba(79, 70, 229, 0.07);
-    }
-
-    .drawer-header h2 {
-      color: #4338ca;
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
-    }
-
-    .drawer-content {
-      padding: 26px 24px 32px;
-      gap: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.06));
-      scrollbar-color: #a5b4fc rgba(224, 231, 255, 0.5);
-      scrollbar-width: thin;
-    }
-
-    .drawer-content::-webkit-scrollbar {
-      width: 9px;
-    }
-
-    .drawer-content::-webkit-scrollbar-track {
-      background: rgba(224, 231, 255, 0.45);
-      border-radius: 12px;
-    }
-
-    .drawer-content::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, #818cf8, #38bdf8);
-      border: 2px solid rgba(255, 255, 255, 0.8);
-      border-radius: 12px;
-    }
-
-    .cert-card {
-      padding: 20px;
-      border: 1px solid rgba(165, 180, 252, 0.42);
-      border-radius: 18px;
-      background: linear-gradient(140deg, rgba(255,255,255,0.96), rgba(239,246,255,0.88) 58%, rgba(250,245,255,0.92));
-      box-shadow:
-        0 12px 28px rgba(67, 56, 202, 0.08),
-        0 3px 8px rgba(15, 23, 42, 0.04),
-        inset 0 1px 0 rgba(255,255,255,0.98);
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-    }
-
-    .cert-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(129, 140, 248, 0.72);
-      box-shadow:
-        0 16px 32px rgba(67, 56, 202, 0.13),
-        0 0 0 3px rgba(255,255,255,0.78),
-        inset 0 1px 0 rgba(255,255,255,1);
-    }
-
-    .cert-card-title {
-      color: #172554;
-      font-size: 1rem;
-    }
-
-    .cert-card-info {
-      color: #52627a;
-      line-height: 1.55;
-    }
-
-    @media (max-width: 600px) {
-      .drawer {
-        width: 100%;
-        max-width: none;
-        border-radius: 22px 0 0 22px;
-      }
-      .drawer-header {
-        padding: 20px 18px;
-      }
-      .drawer-content {
-        padding: 18px 14px 24px;
-      }
-      .cert-card {
-        padding: 17px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .center-showcase {
-        width: min(78vw, 340px);
-        height: min(34vh, 250px);
-        min-width: 0;
-        min-height: 150px;
-      }
-    }
-
-    .showcase-label {
-      font-size: 0.75rem;
+    /* Кнопка на центральному блоці */
+    .showcase-btn {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      background: linear-gradient(135deg, #0284c7, #7e22ce);
+      color: #ffffff;
+      border: none;
+      padding: 9px 22px;
+      border-radius: 22px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.82rem;
       font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent-blue);
-      background: rgba(2, 132, 199, 0.1);
-      padding: 4px 10px;
-      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .showcase-title {
-      font-size: 0.92rem;
-      font-weight: 800;
-      color: #0f172a;
-      line-height: 1.4;
+    .showcase-btn:hover {
+      transform: translateX(-50%) scale(1.06);
+      box-shadow: 0 6px 22px rgba(126, 34, 206, 0.45);
+      background: linear-gradient(135deg, #0369a1, #6b21a8);
+      color: #ffffff;
     }
 
-    .showcase-meta {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    /* Футер із легкою підсвіткою та акцентом */
+    footer {
+      padding: 14px 24px;
+      text-align: center;
+      font-size: 0.86rem;
+      color: #1e293b;
+      border-top: 1px solid rgba(226, 232, 240, 0.8);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
       font-weight: 700;
-      display: flex;
-      gap: 12px;
+      box-shadow: 0 -6px 25px rgba(15, 23, 42, 0.08);
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 1);
+      z-index: 10;
+    }
+
+    footer span {
+      color: var(--accent-purple);
+      font-weight: 900;
     }
 
     /* Бічна панель (Drawer) */
@@ -316,13 +221,17 @@
       width: 100%;
       max-width: 520px;
       height: 100%;
-      background: var(--drawer-bg);
-      border-left: 2px solid #e2e8f0;
-      box-shadow: -15px 0 40px rgba(0, 0, 0, 0.1);
+      background:
+        radial-gradient(ellipse at 100% 0%, rgba(196, 181, 253, 0.42) 0%, transparent 42%),
+        radial-gradient(ellipse at 0% 100%, rgba(125, 211, 252, 0.34) 0%, transparent 45%),
+        linear-gradient(145deg, #f8fbff 0%, #f1f5ff 38%, #fff7fb 72%, #f0f9ff 100%);
+      border-left: 3px solid rgba(129, 140, 248, 0.72);
+      box-shadow: -24px 0 65px rgba(49, 46, 129, 0.17);
       z-index: 1001;
       transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
     .drawer.open {
@@ -330,20 +239,21 @@
     }
 
     .drawer-header {
-      padding: 24px;
-      border-bottom: 2px solid #e2e8f0;
+      padding: 24px 28px;
+      background: linear-gradient(115deg, rgba(224, 242, 254, 0.96) 0%, rgba(237, 233, 254, 0.94) 52%, rgba(252, 231, 243, 0.92) 100%);
+      border-bottom: 1px solid rgba(129, 140, 248, 0.28);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #f8fafc;
     }
 
     .drawer-header h2 {
       font-family: 'Unbounded', sans-serif;
       font-size: 1.1rem;
-      color: var(--accent-blue);
+      color: #4338ca;
       font-weight: 800;
       line-height: 1.3;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
     }
 
     .btn-close {
@@ -374,29 +284,53 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+      scrollbar-color: #a5b4fc rgba(224, 231, 255, 0.5);
+      scrollbar-width: thin;
+    }
+
+    .drawer-content::-webkit-scrollbar {
+      width: 9px;
+    }
+
+    .drawer-content::-webkit-scrollbar-track {
+      background: rgba(224, 231, 255, 0.45);
+      border-radius: 12px;
+    }
+
+    .drawer-content::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #818cf8, #38bdf8);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
     }
 
     .cert-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 18px;
+      padding: 20px;
+      border: 1px solid rgba(165, 180, 252, 0.42);
+      border-radius: 18px;
+      background: linear-gradient(140deg, rgba(255,255,255,0.96), rgba(239,246,255,0.88) 58%, rgba(250,245,255,0.92));
+      box-shadow: 0 12px 28px rgba(67, 56, 202, 0.08), 0 3px 8px rgba(15, 23, 42, 0.04);
       display: flex;
       flex-direction: column;
       gap: 8px;
       user-select: text;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .cert-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 32px rgba(67, 56, 202, 0.13), 0 0 0 3px rgba(255,255,255,0.78);
     }
 
     .cert-card-title {
       font-size: 0.95rem;
       font-weight: 800;
       line-height: 1.4;
-      color: #0f172a;
+      color: #172554;
     }
 
     .cert-card-info {
       font-size: 0.84rem;
-      color: var(--text-muted);
+      color: #52627a;
       display: flex;
       flex-direction: column;
       gap: 4px;
@@ -425,159 +359,36 @@
       border: 1px solid rgba(2, 132, 199, 0.3);
     }
 
-    footer {
-      padding: 12px;
-      text-align: center;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      border-top: 2px solid #e2e8f0;
-      background: rgba(255, 255, 255, 0.9);
-      font-weight: 700;
-    }
-
-
-    /* --- Premium 3D depth: category tiles in front, rotating artwork behind --- */
-    #cloud-stage {
-      isolation: isolate;
-      perspective: 1400px;
-      perspective-origin: 50% 46%;
-      overflow: hidden;
-    }
-
-    /* Artwork is the background layer; category tiles remain the foreground layer. */
-    .center-showcase {
-      z-index: 1;
-      width: min(440px, 42vw);
-      height: min(330px, 39vh);
-      min-width: 220px;
-      min-height: 170px;
-      border: 1px solid rgba(255, 255, 255, 0.96);
-      border-radius: 28px;
-      background: linear-gradient(145deg, rgba(255,255,255,.76), rgba(226,232,240,.48));
-      box-shadow:
-        0 32px 70px -24px rgba(30, 64, 175, .28),
-        0 12px 28px rgba(15, 23, 42, .12),
-        inset 0 1px 0 rgba(255,255,255,.95);
-      transform: translate(-50%, -50%) translateZ(-70px) scale(.94);
-      filter: saturate(.9);
-    }
-
-    .center-showcase::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      border-radius: inherit;
-      pointer-events: none;
-      background: linear-gradient(135deg, rgba(255,255,255,.16), transparent 48%, rgba(148,163,184,.08));
-    }
-
-    .showcase-image {
-      border-radius: 20px;
-      opacity: 0;
-      filter: drop-shadow(0 8px 16px rgba(15,23,42,.10));
-    }
-
-    .cloud-card {
-      z-index: 5;
-      transform: translate(-50%, -50%) translateZ(45px);
-      background:
-        linear-gradient(145deg, rgba(255,255,255,.97), rgba(248,250,252,.88));
-      border: 1px solid rgba(255,255,255,.98);
-      box-shadow:
-        0 18px 32px -12px rgba(15,23,42,.24),
-        0 6px 14px rgba(15,23,42,.09),
-        inset 0 1px 0 rgba(255,255,255,1),
-        inset 0 -2px 0 rgba(148,163,184,.10);
-      backdrop-filter: blur(18px) saturate(1.12);
-      -webkit-backdrop-filter: blur(18px) saturate(1.12);
-      transition:
-        transform .32s cubic-bezier(.2,.8,.2,1),
-        box-shadow .32s ease,
-        background .32s ease,
-        border-color .32s ease,
-        filter .32s ease;
-    }
-
-    .cloud-card::before {
-      content: "";
-      position: absolute;
-      inset: 5px;
-      border-radius: 14px;
-      pointer-events: none;
-      border: 1px solid rgba(255,255,255,.82);
-      box-shadow: inset 0 1px 5px rgba(255,255,255,.7);
-    }
-
-    .cloud-card-text {
-      position: relative;
-      z-index: 1;
-      text-shadow: 0 1px 0 rgba(255,255,255,.95);
-    }
-
-    .cloud-card:hover {
-      transform: translate(-50%, -50%) translateZ(75px) scale(1.08) !important;
-      background: linear-gradient(145deg, #ffffff, #f5f3ff);
-      box-shadow:
-        0 28px 48px -12px rgba(49,46,129,.28),
-        0 0 0 3px rgba(255,255,255,.9),
-        0 0 26px rgba(99,102,241,.24),
-        inset 0 1px 0 #ffffff;
-      filter: saturate(1.08);
-    }
-
-    .drawer {
-      box-shadow: -22px 0 55px rgba(15,23,42,.16);
-      border-left: 1px solid rgba(226,232,240,.95);
-    }
-
-    .cert-card {
-      box-shadow: 0 8px 22px rgba(15,23,42,.045), inset 0 1px 0 rgba(255,255,255,.95);
-    }
-
     @media (max-width: 600px) {
-      #cloud-stage {
-        perspective: 1000px;
-      }
+      #cloud-stage { perspective: 1000px; }
       .center-showcase {
         width: min(78vw, 340px);
-        height: min(34vh, 250px);
+        height: min(34vh, 260px);
         min-width: 0;
-        min-height: 150px;
+        min-height: 160px;
         transform: translate(-50%, -50%) translateZ(-45px) scale(.94);
       }
       .cloud-card {
         width: min(220px, 43vw);
         height: 88px;
       }
-      .cloud-card-text {
-        font-size: .76rem;
-      }
+      .cloud-card-text { font-size: .76rem; }
+      .drawer { max-width: none; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .cloud-card,
-      .showcase-image {
-        transition-duration: .01ms !important;
-      }
+      .cloud-card, .showcase-image { transition-duration: .01ms !important; }
     }
-
   </style>
 </head>
 <body>
-
-  <header>
-    <div class="title-box">
-      <h1>Алла Сіянко — Атестаційний реєстр (2022–2027)</h1>
-      <p>Інтерактивна об'ємна хмара категорій сертифікатів</p>
-    </div>
-  </header>
 
   <div id="cloud-stage">
     <!-- Центральна галерея ілюстрацій із GitHub -->
     <div class="center-showcase" id="center-showcase" aria-label="Випадкова галерея ілюстрацій">
       <img class="showcase-image is-visible" id="showcase-image-a" alt="Ілюстрація з портфоліо" decoding="async" fetchpriority="high">
       <img class="showcase-image" id="showcase-image-b" alt="Ілюстрація з портфоліо" decoding="async">
+      <a href="https://canva.link/5bpc62npy90rs2u" target="_blank" class="showcase-btn">Сертифікати</a>
     </div>
   </div>
 
@@ -591,7 +402,7 @@
   </div>
 
   <footer>
-    Натисніть на будь-яку об'ємну плашку категорії для перегляду усіх сертифікатів
+    Натисніть на будь-яку <span>об'ємну плашку категорії</span> для перегляду сертифікатів або скористайтеся кнопкою в центрі
   </footer>
 
   <script>
@@ -677,12 +488,11 @@
       stage.appendChild(centerBox);
 
       const w = stage.clientWidth || window.innerWidth;
-      const h = stage.clientHeight || (window.innerHeight - 100);
+      const h = stage.clientHeight || (window.innerHeight - 60);
 
       const centerX = w / 2;
       const centerY = h / 2;
 
-      // Розширені еліптичні радіуси для повного запобігання перекриттям
       const rx = Math.min(w * 0.40, 460);
       const ry = Math.min(h * 0.38, 260);
 
@@ -699,10 +509,9 @@
         textSpan.style.color = cat.color;
         card.appendChild(textSpan);
 
-        // Зміщення кута для підняття верхніх плашок (зокрема мовленнєвої компетентності) вище від центру
         let angle = (idx / categories.length) * Math.PI * 2 - (Math.PI / 2);
         if (cat.name.includes("Мовленнєва")) {
-          angle -= 0.18; // делікатне зміщення вгору
+          angle -= 0.18;
         }
 
         const x = centerX + Math.cos(angle) * rx;
@@ -720,11 +529,27 @@
       });
     }
 
-    function startRandomShowcase() {
-      // Публічні raw-файли з GitHub. Репозиторій має бути доступним публічно.
-      const imageUrls = [1, 2, 3, 4, 5].map(
-        number => `https://raw.githubusercontent.com/a64151368-dot/certificates/main/${number}.png`
-      );
+    async function startRandomShowcase() {
+      let imageUrls = [];
+
+      try {
+        const response = await fetch('https://api.github.com/repos/a64151368-dot/certificates/contents');
+        if (response.ok) {
+          const files = await response.json();
+          imageUrls = files
+            .filter(file => file.type === 'file' && /\.(png|jpg|jpeg|webp)$/i.test(file.name))
+            .map(file => file.download_url || `https://raw.githubusercontent.com/a64151368-dot/certificates/main/${encodeURIComponent(file.name)}`);
+        }
+      } catch (err) {
+        console.warn("GitHub API fetch warning:", err);
+      }
+
+      if (imageUrls.length === 0) {
+        imageUrls = Array.from({ length: 35 }, (_, i) => 
+          `https://raw.githubusercontent.com/a64151368-dot/certificates/main/${i + 1}.png`
+        );
+      }
+
       const slides = [
         document.getElementById('showcase-image-a'),
         document.getElementById('showcase-image-b')
@@ -738,7 +563,7 @@
         let next;
         do {
           next = Math.floor(Math.random() * imageUrls.length);
-        } while (next === lastImageIndex);
+        } while (next === lastImageIndex && imageUrls.length > 1);
         lastImageIndex = next;
         return next;
       }
@@ -752,28 +577,26 @@
         const preload = new Image();
         preload.decoding = 'async';
 
-        // Спочатку повністю завантажуємо наступний файл у пам'ять.
-        // Поточне зображення лишається видимим, якщо завантаження не вдалося.
         preload.onload = () => {
           nextSlide.onload = null;
           nextSlide.onerror = null;
           nextSlide.src = preload.src;
           nextSlide.classList.add('is-visible');
-          if (visibleIndex !== -1) slides[visibleIndex].classList.remove('is-visible');
+          if (visibleIndex !== -1) {
+            slides[visibleIndex].classList.remove('is-visible');
+          }
           visibleIndex = nextSlideIndex;
           isSwitching = false;
         };
+
         preload.onerror = () => {
-          console.warn(`Не вдалося завантажити ілюстрацію: ${imageUrls[nextIndex]}`);
           isSwitching = false;
-          // Спробувати інший файл під час наступного циклу, не прибираючи поточне зображення.
         };
+
         preload.src = imageUrls[nextIndex];
       }
 
-      // Показуємо першу картинку одразу після її завантаження, без порожнього кадру.
       showNextImage();
-      // Періодичне перемикання; час можна змінити, не торкаючись решти функціоналу.
       window.setInterval(showNextImage, 5000);
     }
 
