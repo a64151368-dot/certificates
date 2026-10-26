@@ -6,18 +6,21 @@
   <title>Атестаційний реєстр (2022–2027)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=Unbounded:wght@800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-gradient: radial-gradient(circle at 50% 50%, #ffffff 0%, #f1f5f9 60%, #e2e8f0 100%);
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --card-bg: rgba(255, 255, 255, 0.75);
-      --card-border: rgba(255, 255, 255, 0.9);
-      --drawer-bg: #ffffff;
-      --accent-blue: #0284c7;
-      --accent-purple: #7e22ce;
-      --shadow-3d: 0 12px 30px -5px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.06);
+      --bg: #f8f5fd;
+      --ink: #231f3a;
+      --muted: #6b6788;
+      --purple: #7b5cf0;
+      --purple-soft: #ebe6fc;
+      --teal: #45a596;
+      --teal-soft: #e2f3ef;
+      --coral: #ef826f;
+      --butter: #fdf1cc;
+      --line: #d9d0f5;
+      --glass: rgba(255, 255, 255, 0.72);
+      --shadow-soft: 0 20px 50px -22px rgba(91, 70, 190, 0.32), 0 6px 18px -8px rgba(35, 31, 58, 0.10);
     }
 
     * {
@@ -28,20 +31,106 @@
     }
 
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: var(--bg-gradient);
-      color: var(--text-main);
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
       width: 100vw;
       height: 100vh;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
 
-    /* Сцена хмари */
+    /* ===== Фон: м'які плями + формули ===== */
+    .aura {
+      position: fixed;
+      inset: -20%;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(60px);
+      opacity: .9;
+    }
+    .aura span {
+      position: absolute;
+      border-radius: 50%;
+      animation: drift 26s ease-in-out infinite alternate;
+    }
+    .aura span:nth-child(1) { width: 46vw; height: 46vw; left: 8%;  top: 10%; background: rgba(196, 181, 253, .55); }
+    .aura span:nth-child(2) { width: 40vw; height: 40vw; right: 6%; top: 18%; background: rgba(167, 230, 215, .55); animation-delay: -8s; animation-duration: 30s; }
+    .aura span:nth-child(3) { width: 36vw; height: 36vw; left: 34%; bottom: 4%; background: rgba(253, 205, 190, .5); animation-delay: -15s; animation-duration: 34s; }
+    .aura span:nth-child(4) { width: 26vw; height: 26vw; left: 60%; top: 52%; background: rgba(253, 236, 180, .55); animation-delay: -4s; }
+
+    @keyframes drift {
+      0%   { transform: translate(0, 0) scale(1); }
+      50%  { transform: translate(4vw, -3vh) scale(1.08); }
+      100% { transform: translate(-3vw, 4vh) scale(.95); }
+    }
+
+    #formula-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ===== Шапка в стилі сайту ===== */
+    .page-head {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px clamp(16px, 4vw, 48px) 12px;
+      border-bottom: 2px dashed var(--line);
+      background: rgba(248, 245, 253, .6);
+      backdrop-filter: blur(10px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .brand-script {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+      line-height: 1;
+      background: linear-gradient(100deg, #7b5cf0, #9a7bff 45%, #45a596);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .brand-pill {
+      background: var(--teal);
+      color: #fff;
+      font-weight: 800;
+      font-size: .8rem;
+      letter-spacing: .12em;
+      padding: 5px 13px;
+      border-radius: 999px;
+      box-shadow: 0 6px 14px -6px rgba(69, 165, 150, .7);
+      white-space: nowrap;
+    }
+    .head-sub {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.55rem;
+      color: var(--teal);
+      text-align: right;
+      transform: rotate(-2deg);
+    }
+    .head-sub::before { content: "✦ "; color: var(--coral); font-size: 1rem; vertical-align: middle; }
+
+    /* ===== Сцена хмари ===== */
     #cloud-stage {
       flex: 1;
       position: relative;
+      z-index: 5;
       width: 100%;
       height: 100%;
       overflow: hidden;
@@ -50,359 +139,711 @@
       perspective-origin: 50% 46%;
     }
 
-    /* Однакові великі напівпрозорі плашки з 3D об'ємом */
+    /* Плашки категорій — повітряні, з м'якими краями */
     .cloud-card {
+      --c: #7b5cf0;
       position: absolute;
-      width: 220px;
-      height: 95px;
-      padding: 12px;
-      border-radius: 20px;
-      background: linear-gradient(145deg, rgba(255,255,255,.97), rgba(248,250,252,.88));
-      backdrop-filter: blur(16px);
-      border: 2px solid rgba(255, 255, 255, 0.95);
-      box-shadow:
-        0 18px 32px -12px rgba(15,23,42,.24),
-        0 6px 14px rgba(15,23,42,.09),
-        inset 0 1px 0 rgba(255,255,255,1);
+      width: 232px;
+      height: 92px;
+      transform: translate(-50%, -50%) translateZ(45px);
+      transition: transform .5s cubic-bezier(.2,.8,.2,1);
+      cursor: pointer;
+      z-index: 5;
+      opacity: 0;
+      animation: card-in .9s cubic-bezier(.2,.8,.2,1) forwards;
+    }
+    @keyframes card-in {
+      from { opacity: 0; filter: blur(8px); }
+      to   { opacity: 1; filter: blur(0); }
+    }
+
+    .cloud-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      cursor: pointer;
-      transform: translate(-50%, -50%) translateZ(45px);
-      transition: transform 0.32s cubic-bezier(.2,.8,.2,1), 
-                  box-shadow 0.32s ease, 
-                  background 0.32s ease,
-                  border-color 0.32s ease;
-      z-index: 5;
+      gap: 12px;
+      padding: 10px 18px 10px 12px;
+      border-radius: 46px;
+      background:
+        radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--c) 12%, transparent) 0%, transparent 55%),
+        linear-gradient(150deg, rgba(255,255,255,.92), rgba(255,255,255,.62));
+      backdrop-filter: blur(14px) saturate(1.2);
+      -webkit-backdrop-filter: blur(14px) saturate(1.2);
+      border: 1px solid color-mix(in srgb, var(--c) 22%, white);
+      box-shadow:
+        0 22px 40px -22px color-mix(in srgb, var(--c) 55%, transparent),
+        0 4px 14px -6px rgba(35,31,58,.10),
+        inset 0 1px 0 rgba(255,255,255,1),
+        inset 0 -10px 24px -16px color-mix(in srgb, var(--c) 30%, transparent);
+      animation: float 7s ease-in-out infinite;
+      transition: box-shadow .5s ease, background .5s ease, border-color .5s ease;
+    }
+    /* м'яке сяйво навколо плашки */
+    .cloud-card-inner::before {
+      content: "";
+      position: absolute;
+      inset: -10px;
+      border-radius: 56px;
+      background: radial-gradient(closest-side, color-mix(in srgb, var(--c) 22%, transparent), transparent);
+      filter: blur(12px);
+      opacity: .55;
+      z-index: -1;
+      transition: opacity .5s ease;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-7px) rotate(.4deg); }
+    }
+
+    .cloud-card-symbol {
+      flex: none;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 1.45rem;
+      color: #fff;
+      background:
+        radial-gradient(circle at 32% 28%, rgba(255,255,255,.55), transparent 45%),
+        linear-gradient(145deg, color-mix(in srgb, var(--c) 72%, white), var(--c));
+      box-shadow: 0 8px 18px -8px var(--c), inset 0 -3px 8px rgba(0,0,0,.08);
     }
 
     .cloud-card-text {
-      font-family: 'Unbounded', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 900;
-      line-height: 1.35;
-      text-transform: uppercase;
-      letter-spacing: -0.02em;
-      word-wrap: break-word;
-      white-space: normal;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: left;
+      font-family: 'Nunito', sans-serif;
+      font-size: .96rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -.005em;
+      color: var(--ink);
       position: relative;
       z-index: 1;
     }
-
-    .cloud-card:hover {
-      transform: translate(-50%, -50%) translateZ(75px) scale(1.08) !important;
-      z-index: 50 !important;
-      background: linear-gradient(145deg, #ffffff, #f5f3ff);
-      border-color: var(--accent-purple);
-      box-shadow:
-        0 28px 48px -12px rgba(49,46,129,.28),
-        0 0 0 3px rgba(255,255,255,.9),
-        0 0 26px rgba(99,102,241,.24);
+    .cloud-card-count {
+      font-family: 'Caveat', cursive;
+      font-size: 1.12rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--c);
+      opacity: .9;
     }
 
-    /* Центральна галерея */
+    .cloud-card:hover {
+      transform: translate(-50%, -50%) translateZ(75px) scale(1.06) !important;
+      z-index: 50 !important;
+    }
+    .cloud-card:hover .cloud-card-inner {
+      background:
+        radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--c) 18%, transparent) 0%, transparent 60%),
+        linear-gradient(150deg, #ffffff, rgba(255,255,255,.88));
+      border-color: color-mix(in srgb, var(--c) 45%, white);
+      box-shadow:
+        0 30px 50px -22px color-mix(in srgb, var(--c) 70%, transparent),
+        0 0 0 6px color-mix(in srgb, var(--c) 10%, transparent),
+        inset 0 1px 0 #fff;
+    }
+    .cloud-card:hover .cloud-card-inner::before { opacity: 1; }
+
+    /* ===== Центральна галерея ===== */
     .center-showcase {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) translateZ(-70px) scale(.94);
-      width: min(440px, 42vw);
-      height: min(340px, 40vh);
-      min-width: 220px;
-      min-height: 200px;
-      padding: 8px;
-      border-radius: 28px;
-      background: linear-gradient(145deg, rgba(255,255,255,.76), rgba(226,232,240,.48));
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.96);
-      box-shadow:
-        0 32px 70px -24px rgba(30, 64, 175, .28),
-        0 12px 28px rgba(15, 23, 42, .12),
-        inset 0 1px 0 rgba(255,255,255,.95);
+      width: min(500px, 44vw);
+      height: min(390px, 46vh);
+      min-width: 240px;
+      min-height: 220px;
       z-index: 1;
+    }
+
+    /* орбіти навколо галереї */
+    .orbits {
+      position: absolute;
+      inset: -22% -16%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .orbit {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(123, 92, 240, .28);
+      animation: spin 60s linear infinite;
+    }
+    .orbit::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -6px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--purple);
+      box-shadow: 0 0 14px 4px rgba(123, 92, 240, .45);
+    }
+    .orbit.o2 {
+      inset: 8% -6%;
+      border-color: rgba(69, 165, 150, .32);
+      animation-duration: 42s;
+      animation-direction: reverse;
+      transform: rotate(18deg);
+    }
+    .orbit.o2::after { background: var(--teal); box-shadow: 0 0 14px 4px rgba(69, 165, 150, .5); top: 0; left: 50%; }
+    .orbit.o3 {
+      inset: 16% 4%;
+      border-style: dotted;
+      border-color: rgba(239, 130, 111, .35);
+      animation-duration: 28s;
+    }
+    .orbit.o3::after { background: var(--coral); box-shadow: 0 0 12px 3px rgba(239, 130, 111, .5); top: auto; bottom: -5px; left: 50%; width: 9px; height: 9px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .orbit.o2 { animation-name: spin2; }
+    @keyframes spin2 { from { transform: rotate(18deg); } to { transform: rotate(-342deg); } }
+
+    /* Плавна «крапля» замість прямокутника */
+    .showcase-frame {
+      position: absolute;
+      inset: 0;
+      border-radius: 46% 54% 50% 50% / 52% 46% 54% 48%;
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: var(--shadow-soft), inset 0 1px 0 #fff;
       overflow: hidden;
       isolation: isolate;
+      animation: blob 16s ease-in-out infinite;
+    }
+    /* переливна рамка */
+    .showcase-frame::before {
+      content: "";
+      position: absolute;
+      inset: -60%;
+      background: conic-gradient(from 0deg, #c4b5fd, #a7e6d7, #fdcdbe, #fdecb4, #c4b5fd);
+      animation: spin 14s linear infinite;
+      z-index: -2;
+      opacity: .9;
+    }
+    .showcase-frame::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      background:
+        radial-gradient(ellipse at 50% 45%, #ffffff 0%, rgba(255,255,255,.96) 55%, rgba(247,244,255,.9) 100%);
+      z-index: -1;
+    }
+    @keyframes blob {
+      0%, 100% { border-radius: 46% 54% 50% 50% / 52% 46% 54% 48%; }
+      33%      { border-radius: 54% 46% 47% 53% / 46% 54% 48% 52%; }
+      66%      { border-radius: 49% 51% 55% 45% / 50% 48% 52% 50%; }
+    }
+
+    /* Зона для сертифіката — всередині краплі, щоб форма його не обрізала */
+    .showcase-stage {
+      position: absolute;
+      top: 13%;
+      bottom: calc(13% + 40px);
+      left: 16%;
+      right: 16%;
+      display: grid;
+      grid-template: 100% / 100%;
+      place-items: center;
+      z-index: 1;
+      pointer-events: none;
     }
 
     .showcase-image {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      right: 8px;
-      bottom: 50px;
-      width: calc(100% - 16px);
-      height: calc(100% - 58px);
+      grid-area: 1 / 1;
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
       object-fit: contain;
-      object-position: center;
+      border-radius: 16px;
       opacity: 0;
-      transition: opacity 900ms ease-in-out;
-      z-index: 1;
-      pointer-events: none;
-      filter: drop-shadow(0 8px 16px rgba(15,23,42,.10));
+      transform: scale(.96);
+      transition: opacity 1100ms ease-in-out, transform 1600ms cubic-bezier(.2,.8,.2,1);
+      box-shadow: 0 12px 26px -12px rgba(60, 40, 140, .35), 0 0 0 4px rgba(255,255,255,.9);
     }
 
-    .showcase-image.is-visible { opacity: 1; }
+    .showcase-image.is-visible { opacity: 1; transform: scale(1); }
+    .showcase-image:not([src]) { visibility: hidden; }
 
-    /* Кнопка на центральному блоці */
     .showcase-btn {
       position: absolute;
-      bottom: 14px;
+      bottom: 11%;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
-      background: linear-gradient(135deg, #0284c7, #7e22ce);
+      background: linear-gradient(120deg, #45a596, #7b5cf0 60%, #9a7bff);
+      background-size: 180% 100%;
       color: #ffffff;
       border: none;
-      padding: 9px 22px;
-      border-radius: 22px;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.82rem;
+      padding: 10px 26px;
+      border-radius: 999px;
+      font-family: 'Nunito', sans-serif;
+      font-size: .9rem;
       font-weight: 800;
+      letter-spacing: .02em;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35);
-      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 24px -10px rgba(123, 92, 240, .8);
+      transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, background-position .6s ease;
       white-space: nowrap;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
     }
-
+    .showcase-btn::after {
+      content: "→";
+      transition: transform .35s ease;
+    }
     .showcase-btn:hover {
-      transform: translateX(-50%) scale(1.06);
-      box-shadow: 0 6px 22px rgba(126, 34, 206, 0.45);
-      background: linear-gradient(135deg, #0369a1, #6b21a8);
+      transform: translateX(-50%) translateY(-2px);
+      background-position: 100% 0;
+      box-shadow: 0 16px 30px -12px rgba(123, 92, 240, .9);
       color: #ffffff;
     }
+    .showcase-btn:hover::after { transform: translateX(3px); }
 
-    /* Футер із легкою підсвіткою та акцентом */
+    /* ===== Футер ===== */
     footer {
-      padding: 14px 24px;
+      position: relative;
+      padding: 13px 24px;
       text-align: center;
-      font-size: 0.86rem;
-      color: #1e293b;
-      border-top: 1px solid rgba(226, 232, 240, 0.8);
-      background: rgba(255, 255, 255, 0.88);
+      font-size: .9rem;
+      color: var(--muted);
+      border-top: 2px dashed var(--line);
+      background: rgba(255, 255, 255, .6);
       backdrop-filter: blur(14px);
       font-weight: 700;
-      box-shadow: 0 -6px 25px rgba(15, 23, 42, 0.08);
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 1);
       z-index: 10;
     }
-
     footer span {
-      color: var(--accent-purple);
-      font-weight: 900;
+      font-family: 'Caveat', cursive;
+      font-size: 1.3rem;
+      line-height: 1;
+      color: var(--purple);
+      font-weight: 700;
+      padding: 0 .12em;
     }
 
-    /* Бічна панель (Drawer) */
+    /* ===== Бічна панель ===== */
     .drawer-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.4);
-      backdrop-filter: blur(4px);
+      background: rgba(45, 33, 92, .22);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: opacity .4s ease;
       z-index: 1000;
     }
-
     .drawer-overlay.open {
       opacity: 1;
       pointer-events: auto;
     }
 
     .drawer {
+      --c: #7b5cf0;
       position: fixed;
-      top: 0;
-      right: -560px;
-      width: 100%;
-      max-width: 520px;
-      height: 100%;
+      top: 12px;
+      bottom: 12px;
+      right: -600px;
+      width: calc(100% - 24px);
+      max-width: 560px;
       background:
-        radial-gradient(ellipse at 100% 0%, rgba(196, 181, 253, 0.42) 0%, transparent 42%),
-        radial-gradient(ellipse at 0% 100%, rgba(125, 211, 252, 0.34) 0%, transparent 45%),
-        linear-gradient(145deg, #f8fbff 0%, #f1f5ff 38%, #fff7fb 72%, #f0f9ff 100%);
-      border-left: 3px solid rgba(129, 140, 248, 0.72);
-      box-shadow: -24px 0 65px rgba(49, 46, 129, 0.17);
+        radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--c) 14%, transparent) 0%, transparent 45%),
+        radial-gradient(ellipse at 0% 100%, rgba(167, 230, 215, .30) 0%, transparent 50%),
+        radial-gradient(circle, rgba(123, 92, 240, .09) 1.2px, transparent 1.4px) 0 0 / 26px 26px,
+        #fbf9ff;
+      border-radius: 36px;
+      box-shadow: -30px 0 70px -20px rgba(60, 40, 140, .35);
       z-index: 1001;
-      transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: right .6s cubic-bezier(.16, 1, .3, 1);
       display: flex;
       flex-direction: column;
       overflow: hidden;
     }
+    .drawer.open { right: 12px; }
 
-    .drawer.open {
-      right: 0;
-    }
-
+    /* Шапка панелі */
     .drawer-header {
-      padding: 24px 28px;
-      background: linear-gradient(115deg, rgba(224, 242, 254, 0.96) 0%, rgba(237, 233, 254, 0.94) 52%, rgba(252, 231, 243, 0.92) 100%);
-      border-bottom: 1px solid rgba(129, 140, 248, 0.28);
+      position: relative;
+      padding: 26px 24px 22px 28px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
+      gap: 12px;
+      overflow: hidden;
+    }
+    .drawer-header::after {
+      content: "";
+      position: absolute;
+      left: 28px; right: 28px; bottom: 0;
+      border-bottom: 2px dashed color-mix(in srgb, var(--c) 30%, #e4dcfa);
+    }
+    .drawer-glyph {
+      position: absolute;
+      right: 70px;
+      top: -26px;
+      font-family: 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif;
+      font-style: italic;
+      font-size: 9rem;
+      line-height: 1;
+      color: var(--c);
+      opacity: .09;
+      pointer-events: none;
+      transform: rotate(-8deg);
+      animation: glyph-sway 9s ease-in-out infinite;
+    }
+    @keyframes glyph-sway {
+      0%, 100% { transform: rotate(-8deg) translateY(0); }
+      50%      { transform: rotate(-3deg) translateY(6px); }
     }
 
     .drawer-header h2 {
-      font-family: 'Unbounded', sans-serif;
-      font-size: 1.1rem;
-      color: #4338ca;
-      font-weight: 800;
-      line-height: 1.3;
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-weight: 400;
+    }
+    .dh-kicker {
+      font-family: 'Nunito', sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .dh-name {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 2.6rem;
+      line-height: .95;
+      color: var(--c);
+      position: relative;
+      display: inline-block;
+      align-self: flex-start;
+    }
+    .dh-underline {
+      display: block;
+      width: 100%;
+      height: 12px;
+      margin-top: -2px;
+      overflow: visible;
+    }
+    .dh-underline path {
+      stroke: var(--c);
+      stroke-dasharray: 260;
+      stroke-dashoffset: 260;
+      opacity: .55;
+    }
+    .drawer.open .dh-underline path {
+      animation: draw-line 1s .35s cubic-bezier(.6,.1,.2,1) forwards;
+    }
+    @keyframes draw-line { to { stroke-dashoffset: 0; } }
+
+    .dh-count {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-top: 4px;
+      padding: 4px 14px 5px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--c) 12%, white);
+      color: color-mix(in srgb, var(--c) 80%, #231f3a);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: .82rem;
+    }
+    .dh-count b {
+      font-family: 'Caveat', cursive;
+      font-size: 1.35rem;
+      line-height: 1;
     }
 
     .btn-close {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      color: var(--text-main);
-      width: 36px;
-      height: 36px;
+      position: relative;
+      flex: none;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
-      font-size: 1.1rem;
+      font-size: 1rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s ease;
+      transition: all .35s cubic-bezier(.2,.8,.2,1);
+      box-shadow: 0 6px 14px -8px rgba(60,40,140,.4);
     }
-
     .btn-close:hover {
-      background: #e11d48;
-      color: #ffffff;
-      border-color: #e11d48;
+      background: var(--coral);
+      color: #fff;
+      border-color: var(--coral);
+      transform: rotate(90deg) scale(1.05);
     }
 
     .drawer-content {
       flex: 1;
       overflow-y: auto;
-      padding: 24px;
+      padding: 22px 22px 28px;
       display: flex;
       flex-direction: column;
       gap: 16px;
-      scrollbar-color: #a5b4fc rgba(224, 231, 255, 0.5);
+      scrollbar-color: #c4b5fd transparent;
       scrollbar-width: thin;
     }
+    .drawer-content::-webkit-scrollbar { width: 8px; }
+    .drawer-content::-webkit-scrollbar-track { background: transparent; }
+    .drawer-content::-webkit-scrollbar-thumb { background: #c4b5fd; border-radius: 12px; }
 
-    .drawer-content::-webkit-scrollbar {
-      width: 9px;
-    }
-
-    .drawer-content::-webkit-scrollbar-track {
-      background: rgba(224, 231, 255, 0.45);
-      border-radius: 12px;
-    }
-
-    .drawer-content::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, #818cf8, #38bdf8);
-      border: 2px solid rgba(255, 255, 255, 0.8);
-      border-radius: 12px;
-    }
-
+    /* Картка сертифіката */
     .cert-card {
-      padding: 20px;
-      border: 1px solid rgba(165, 180, 252, 0.42);
-      border-radius: 18px;
-      background: linear-gradient(140deg, rgba(255,255,255,0.96), rgba(239,246,255,0.88) 58%, rgba(250,245,255,0.92));
-      box-shadow: 0 12px 28px rgba(67, 56, 202, 0.08), 0 3px 8px rgba(15, 23, 42, 0.04);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      position: relative;
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: 74px 1fr;
+      gap: 16px;
+      padding: 18px 20px 18px 16px;
+      border-radius: 28px;
+      background: #fff;
+      border: 1px solid color-mix(in srgb, var(--c) 10%, #f1edfb);
+      box-shadow: 0 16px 32px -22px rgba(60, 40, 140, .4), 0 2px 6px rgba(35,31,58,.03);
       user-select: text;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease, border-color .4s ease;
+      opacity: 0;
+      animation: rise .7s cubic-bezier(.2,.8,.2,1) forwards;
     }
-
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px) scale(.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
     .cert-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 32px rgba(67, 56, 202, 0.13), 0 0 0 3px rgba(255,255,255,0.78);
+      transform: translateY(-3px);
+      border-color: color-mix(in srgb, var(--c) 30%, white);
+      box-shadow: 0 22px 40px -22px color-mix(in srgb, var(--c) 55%, transparent);
     }
 
-    .cert-card-title {
-      font-size: 0.95rem;
-      font-weight: 800;
-      line-height: 1.4;
-      color: #172554;
+    /* «Плитка» з датою, як на основному сайті */
+    .cert-date {
+      align-self: start;
+      width: 74px;
+      padding: 12px 4px 10px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.35), transparent 50%),
+        var(--c);
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 10px 20px -10px var(--c);
+      transform: rotate(-4deg);
+      transition: transform .4s cubic-bezier(.2,.8,.2,1);
+    }
+    .cert-card:nth-child(even) .cert-date { transform: rotate(3deg); }
+    .cert-card:hover .cert-date { transform: rotate(0deg) scale(1.04); }
+    .cert-date-day {
+      display: block;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      line-height: 1.1;
+    }
+    .cert-date-year {
+      display: block;
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.3rem;
+      line-height: 1;
+      opacity: .92;
     }
 
-    .cert-card-info {
-      font-size: 0.84rem;
-      color: #52627a;
+    .cert-body {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      font-weight: 700;
+      gap: 10px;
+      min-width: 0;
     }
+    .cert-card-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 1.04rem;
+      font-weight: 800;
+      line-height: 1.35;
+      color: var(--ink);
+    }
+    .cert-card-info {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: .9rem;
+      color: #4f4a6e;
+      font-weight: 600;
+    }
+    .cert-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      line-height: 1.35;
+    }
+    .cert-row i {
+      flex: none;
+      min-width: 92px;
+      font-style: normal;
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 1;
+      color: var(--c);
+    }
+    .cert-row span { min-width: 0; overflow-wrap: anywhere; }
 
     .badge-status {
-      display: inline-block;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
       align-self: flex-start;
-      margin-top: 4px;
-      padding: 5px 12px;
-      border-radius: 8px;
-      font-size: 0.78rem;
-      font-weight: 800;
+      padding: 7px 16px 8px;
+      border-radius: 18px;
+      font-family: 'Nunito', sans-serif;
+      font-size: .84rem;
+      font-weight: 700;
     }
-
+    .badge-status::before {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.15rem;
+      line-height: 1;
+    }
     .status-ok {
-      background: rgba(22, 163, 74, 0.12);
-      color: #15803d;
-      border: 1px solid rgba(22, 163, 74, 0.3);
+      background: var(--butter);
+      color: #7a5a12;
     }
-
+    .status-ok::before { content: "✓ статус:"; color: #c27a12; }
     .status-info {
-      background: rgba(2, 132, 199, 0.12);
-      color: #0369a1;
-      border: 1px solid rgba(2, 132, 199, 0.3);
+      background: var(--purple-soft);
+      color: #4a3aa8;
+    }
+    .status-info::before { content: "статус:"; color: var(--purple); }
+
+    .empty-note {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+      font-weight: 700;
+      background: #fff;
+      border-radius: 28px;
+      border: 2px dashed var(--line);
+    }
+    .empty-note b {
+      display: block;
+      font-family: 'Caveat', cursive;
+      font-size: 2rem;
+      color: var(--c);
+      margin-bottom: 6px;
     }
 
     @media (max-width: 600px) {
       #cloud-stage { perspective: 1000px; }
       .center-showcase {
-        width: min(78vw, 340px);
-        height: min(34vh, 260px);
+        width: min(86vw, 360px);
+        height: min(34vh, 250px);
         min-width: 0;
         min-height: 160px;
         transform: translate(-50%, -50%) translateZ(-45px) scale(.94);
       }
+      .showcase-stage { top: 13%; bottom: calc(13% + 40px); left: 15%; right: 15%; }
+      .showcase-image { border-radius: 12px; }
+      .showcase-btn { bottom: 9%; padding: 8px 20px; font-size: .84rem; }
       .cloud-card {
-        width: min(220px, 43vw);
-        height: 88px;
+        width: min(176px, 44vw);
+        height: 64px;
       }
-      .cloud-card-text { font-size: .76rem; }
+      .cloud-card-inner { padding: 6px 10px 6px 6px; gap: 7px; border-radius: 34px; }
+      .cloud-card-symbol { width: 32px; height: 32px; font-size: .95rem; }
+      .cloud-card-text { font-size: .78rem; }
+      .cloud-card-count { font-size: .95rem; }
+      .head-sub { display: none; }
       .drawer { max-width: none; }
+      .drawer-glyph { font-size: 6.5rem; right: 60px; }
+      .dh-name { font-size: 2.1rem; }
+      .cert-card { grid-template-columns: 58px 1fr; gap: 12px; padding: 16px 16px 16px 12px; }
+      .cert-date { width: 58px; padding: 10px 2px 8px; border-radius: 18px; }
+      .cert-date-day { font-size: .9rem; }
+      .cert-row { flex-direction: column; gap: 1px; }
+      .cert-row i { min-width: 0; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .cloud-card, .showcase-image { transition-duration: .01ms !important; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
 <body>
 
+  <div class="aura" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+  <canvas id="formula-bg" aria-hidden="true"></canvas>
+
+  <header class="page-head">
+    <div class="brand">
+      <span class="brand-script">Сертифікати</span>
+      <span class="brand-pill">2022–2027</span>
+    </div>
+    <div class="head-sub">атестаційний реєстр</div>
+  </header>
+
   <div id="cloud-stage">
     <!-- Центральна галерея ілюстрацій із GitHub -->
     <div class="center-showcase" id="center-showcase" aria-label="Випадкова галерея ілюстрацій">
-      <img class="showcase-image is-visible" id="showcase-image-a" alt="Ілюстрація з портфоліо" decoding="async" fetchpriority="high">
-      <img class="showcase-image" id="showcase-image-b" alt="Ілюстрація з портфоліо" decoding="async">
-      <a href="https://canva.link/5bpc62npy90rs2u" target="_blank" class="showcase-btn">Сертифікати</a>
+      <div class="orbits" aria-hidden="true">
+        <div class="orbit"></div>
+        <div class="orbit o2"></div>
+        <div class="orbit o3"></div>
+      </div>
+      <div class="showcase-frame">
+        <div class="showcase-stage">
+          <img class="showcase-image is-visible" id="showcase-image-a" alt="Ілюстрація з портфоліо" decoding="async" fetchpriority="high">
+          <img class="showcase-image" id="showcase-image-b" alt="Ілюстрація з портфоліо" decoding="async">
+        </div>
+        <a href="https://canva.link/5bpc62npy90rs2u" target="_blank" class="showcase-btn">Сертифікати</a>
+      </div>
     </div>
   </div>
 
   <div class="drawer-overlay" id="overlay" onclick="closeDrawer()"></div>
   <div class="drawer" id="drawer">
     <div class="drawer-header">
+      <span class="drawer-glyph" id="drawer-glyph" aria-hidden="true">∑</span>
       <h2 id="drawer-title">Категорія</h2>
-      <button class="btn-close" onclick="closeDrawer()">✕</button>
+      <button class="btn-close" onclick="closeDrawer()" aria-label="Закрити">✕</button>
     </div>
     <div class="drawer-content" id="drawer-body"></div>
   </div>
 
   <footer>
-    Натисніть на будь-яку <span>об'ємну плашку категорії</span> для перегляду сертифікатів або скористайтеся кнопкою в центрі
+    Натисніть на будь-яку <span>плашку категорії</span> для перегляду сертифікатів або скористайтеся кнопкою в центрі
   </footer>
 
   <script>
@@ -470,16 +911,23 @@
     };
 
     const categories = [
-      { name: "Фізика", color: "#0284c7" },
-      { name: "Математика", color: "#b91c1c" },
-      { name: "Цифрова<br>компетентність", rawName: "Цифрова компетентність", color: "#0369a1" },
-      { name: "Психологічна<br>підготовка", rawName: "Психологічна підготовка", color: "#d97706" },
-      { name: "Медіаосвіта", color: "#7e22ce" },
-      { name: "Інклюзія", color: "#059669" },
-      { name: "Мовленнєва<br>компетентність", rawName: "Мовленнєва компетентність", color: "#4f46e5" },
-      { name: "Академічна<br>доброчесність", rawName: "Академічна доброчесність", color: "#0891b2" },
-      { name: "Домедична<br>допомога", rawName: "Домедична допомога", color: "#e11d48" }
+      { name: "Фізика", color: "#3b8fd9", symbol: "ħ" },
+      { name: "Математика", color: "#e0607e", symbol: "∑" },
+      { name: "Цифрова<br>компетентність", rawName: "Цифрова компетентність", color: "#3f9fb5", symbol: "∂" },
+      { name: "Психологічна<br>підготовка", rawName: "Психологічна підготовка", color: "#d98a2b", symbol: "ψ" },
+      { name: "Медіаосвіта", color: "#9a5ce0", symbol: "λ" },
+      { name: "Інклюзія", color: "#45a596", symbol: "∪" },
+      { name: "Мовленнєва<br>компетентність", rawName: "Мовленнєва компетентність", color: "#6a63e6", symbol: "Ω" },
+      { name: "Академічна<br>доброчесність", rawName: "Академічна доброчесність", color: "#2f9c8c", symbol: "≡" },
+      { name: "Домедична<br>допомога", rawName: "Домедична допомога", color: "#ef826f", symbol: "+" }
     ];
+
+    function docsWord(n) {
+      const m10 = n % 10, m100 = n % 100;
+      if (m10 === 1 && m100 !== 11) return 'документ';
+      if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return 'документи';
+      return 'документів';
+    }
 
     function buildCloud() {
       const stage = document.getElementById('cloud-stage');
@@ -493,29 +941,55 @@
       const centerX = w / 2;
       const centerY = h / 2;
 
-      const rx = Math.min(w * 0.40, 460);
-      const ry = Math.min(h * 0.38, 260);
+      const isNarrow = w < 600;
+      const cardW = isNarrow ? Math.min(170, w * 0.42) : 232;
+      const rx = isNarrow ? (w - cardW) / 2 - 6 : Math.min(w * 0.40, 470);
+      const ry = isNarrow ? h * 0.43 - 30 : Math.min(h * 0.38, 260);
 
       categories.forEach((cat, idx) => {
         const card = document.createElement('div');
         card.className = 'cloud-card';
-        
+
         const keyName = cat.rawName || cat.name.replace('<br>', ' ');
-        card.style.borderColor = cat.color;
+        const count = (data[keyName] || []).length;
+        card.style.setProperty('--c', cat.color);
+        card.style.animationDelay = (idx * 0.07) + 's';
+
+        const inner = document.createElement('div');
+        inner.className = 'cloud-card-inner';
+        inner.style.animationDelay = (-idx * 0.83) + 's';
+        inner.style.animationDuration = (6 + (idx % 3)) + 's';
+
+        const sym = document.createElement('span');
+        sym.className = 'cloud-card-symbol';
+        sym.textContent = cat.symbol;
 
         const textSpan = document.createElement('span');
         textSpan.className = 'cloud-card-text';
-        textSpan.innerHTML = cat.name;
-        textSpan.style.color = cat.color;
-        card.appendChild(textSpan);
+        textSpan.innerHTML = `<span>${cat.name}</span><span class="cloud-card-count">${count ? count + ' ' + docsWord(count) : 'в опрацюванні'}</span>`;
+
+        inner.appendChild(sym);
+        inner.appendChild(textSpan);
+        card.appendChild(inner);
 
         let angle = (idx / categories.length) * Math.PI * 2 - (Math.PI / 2);
         if (cat.name.includes("Мовленнєва")) {
           angle -= 0.18;
         }
 
-        const x = centerX + Math.cos(angle) * rx;
-        const y = centerY + Math.sin(angle) * ry;
+        let x = centerX + Math.cos(angle) * rx;
+        let y = centerY + Math.sin(angle) * ry;
+
+        if (isNarrow) {
+          // на телефоні — акуратні ряди над і під галереєю
+          const slots = [
+            [0.27, 50], [0.73, 50], [0.27, 122], [0.73, 122], [0.5, 194],
+            [0.27, -124], [0.73, -124], [0.27, -52], [0.73, -52]
+          ];
+          const [fx, fy] = slots[idx] || [0.5, centerY];
+          x = w * fx;
+          y = fy >= 0 ? fy : h + fy;
+        }
 
         card.style.left = x + 'px';
         card.style.top = y + 'px';
@@ -527,6 +1001,79 @@
 
         stage.appendChild(card);
       });
+
+      fitShowcase(stage, centerBox, w, h);
+    }
+
+    /* Розраховує найбільшу «краплю», яка вміщується між плашками категорій */
+    function fitShowcase(stage, box, w, h) {
+      const cards = [...stage.querySelectorAll('.cloud-card')];
+      if (!cards.length) return;
+
+      const cs = getComputedStyle(stage);
+      const persp = parseFloat(cs.perspective) || 1400;
+      const ox = w * 0.5, oy = h * 0.46;            // perspective-origin
+      const isNarrow = w < 600;
+      const zCard = 45, zBox = isNarrow ? -45 : -70;
+      const kCard = persp / (persp - zCard);        // плашки виглядають трохи більшими
+      const kBox = 0.94 * persp / (persp - zBox);   // галерея — трохи меншою
+
+      const gap = isNarrow ? 12 : 22;               // повітря між краплею і плашками (+ їх «плавання»)
+      const float = 8;
+      const cx = w / 2;
+      let cy = h / 2;
+
+      // реальні прямокутники плашок на екрані
+      const rects = cards.map(c => {
+        const x = parseFloat(c.style.left), y = parseFloat(c.style.top);
+        const pw = c.offsetWidth * kCard, ph = c.offsetHeight * kCard;
+        const px = ox + (x - ox) * kCard, py = oy + (y - oy) * kCard;
+        return { l: px - pw / 2 - gap, r: px + pw / 2 + gap, t: py - ph / 2 - gap - float, b: py + ph / 2 + gap };
+      });
+
+      // на телефоні — ставимо краплю посередині вільної смуги між рядами плашок
+      if (isNarrow) {
+        const above = rects.filter(R => (R.t + R.b) / 2 < h / 2).map(R => R.b);
+        const below = rects.filter(R => (R.t + R.b) / 2 >= h / 2).map(R => R.t);
+        if (above.length && below.length) cy = (Math.max(...above) + Math.min(...below)) / 2;
+      }
+      box.style.top = cy + 'px';
+
+      // точки по периметру кожної плашки
+      const pts = [];
+      rects.forEach(R => {
+        for (let i = 0; i <= 16; i++) {
+          const fx = R.l + (R.r - R.l) * i / 16, fy = R.t + (R.b - R.t) * i / 16;
+          pts.push([fx - cx, R.t - cy], [fx - cx, R.b - cy], [R.l - cx, fy - cy], [R.r - cx, fy - cy]);
+        }
+      });
+      // і межі сцени
+      const edge = 10;
+
+      let best = null;
+      for (let ratio = 1.15; ratio <= 1.75; ratio += 0.05) {
+        // найбільша піввісь b для цього співвідношення
+        let lo = 40, hi = h / 2;
+        for (let it = 0; it < 24; it++) {
+          const b = (lo + hi) / 2, a = b * ratio;
+          let ok = a <= w / 2 - edge && b <= Math.min(cy, h - cy) - edge;
+          for (let j = 0; ok && j < pts.length; j++) {
+            const [px, py] = pts[j];
+            if ((px * px) / (a * a) + (py * py) / (b * b) < 1) ok = false;
+          }
+          ok ? (lo = b) : (hi = b);
+        }
+        const area = lo * lo * ratio;
+        if (!best || area > best.area) best = { area, a: lo * ratio, b: lo };
+      }
+
+      // переводимо екранний розмір у CSS-розмір з урахуванням 3D-зменшення
+      const cssW = Math.round((best.a * 2) / kBox);
+      const cssH = Math.round((best.b * 2) / kBox);
+      box.style.minWidth = '0';
+      box.style.minHeight = '0';
+      box.style.width = cssW + 'px';
+      box.style.height = cssH + 'px';
     }
 
     async function startRandomShowcase() {
@@ -545,7 +1092,7 @@
       }
 
       if (imageUrls.length === 0) {
-        imageUrls = Array.from({ length: 35 }, (_, i) => 
+        imageUrls = Array.from({ length: 35 }, (_, i) =>
           `https://raw.githubusercontent.com/a64151368-dot/certificates/main/${i + 1}.png`
         );
       }
@@ -606,33 +1153,50 @@
       const title = document.getElementById('drawer-title');
       const body = document.getElementById('drawer-body');
 
+      const cat = categories.find(c => (c.rawName || c.name) === catName);
+      drawer.style.setProperty('--c', cat ? cat.color : '#7b5cf0');
+      document.getElementById('drawer-glyph').textContent = cat ? cat.symbol : '∑';
+
       const items = data[catName] || [];
-      title.innerText = `${catName} (${items.length} документів)`;
+      title.innerHTML = `
+        <span class="dh-kicker">категорія</span>
+        <span class="dh-name">${catName}
+          <svg class="dh-underline" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 40 2, 80 12, 120 6 S 180 3, 198 7" fill="none" stroke-width="3" stroke-linecap="round"/></svg>
+        </span>
+        <span class="dh-count"><b>${items.length}</b> ${docsWord(items.length)}</span>`;
       body.innerHTML = '';
 
       if (items.length === 0) {
-        body.innerHTML = '<div style="text-align:center; padding:40px; color:#64748b; font-weight:700;">Записи у цій категорії знаходяться на стадії опрацювання.</div>';
+        body.innerHTML = '<div class="empty-note"><b>скоро тут буде…</b>Записи у цій категорії знаходяться на стадії опрацювання.</div>';
       } else {
-        items.forEach(item => {
+        items.forEach((item, i) => {
           const isOk = (item.status || "").includes('ПІДТВЕРДЖЕНО');
+          const parts = (item.date || '').split('.');
+          const day = parts.length === 3 ? `${parts[0]}.${parts[1]}` : item.date;
+          const year = parts.length === 3 ? parts[2] : '';
           const card = document.createElement('div');
           card.className = 'cert-card';
+          card.style.animationDelay = (0.15 + i * 0.06) + 's';
           card.innerHTML = `
-            <div class="cert-card-title">${item.title}</div>
-            <div class="cert-card-info">
-              <span>📅 Дата: ${item.date}</span>
-              <span>⏱️ Обсяг: ${item.hours}</span>
-              <span>🏫 Організатор: ${item.organizer}</span>
-              <span>📄 Документ: ${item.doc}</span>
+            <div class="cert-date" title="Дата: ${item.date}">
+              <span class="cert-date-day">${day}</span>
+              <span class="cert-date-year">${year}</span>
             </div>
-            <div class="badge-status ${isOk ? 'status-ok' : 'status-info'}">
-              ${item.status}
+            <div class="cert-body">
+              <div class="cert-card-title">${item.title}</div>
+              <div class="cert-card-info">
+                <div class="cert-row"><i>обсяг</i><span>${item.hours}</span></div>
+                <div class="cert-row"><i>організатор</i><span>${item.organizer}</span></div>
+                <div class="cert-row"><i>документ</i><span>${item.doc}</span></div>
+              </div>
+              <div class="badge-status ${isOk ? 'status-ok' : 'status-info'}">${item.status}</div>
             </div>
           `;
           body.appendChild(card);
         });
       }
 
+      body.scrollTop = 0;
       drawer.classList.add('open');
       overlay.classList.add('open');
     }
@@ -642,9 +1206,121 @@
       document.getElementById('overlay').classList.remove('open');
     }
 
+    /* ===== Анімований фон із формулами фізики та математики ===== */
+    function startFormulaBackground() {
+      const canvas = document.getElementById('formula-bg');
+      const ctx = canvas.getContext('2d');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const formulas = [
+        'E = mc²', 'F = ma', 'a² + b² = c²', 'e^{iπ} + 1 = 0', '∫ f(x) dx', 'Σ 1/n² = π²/6',
+        'λ = c / ν', 'p = mv', 'sin²α + cos²α = 1', '∇ · E = ρ / ε₀', 'ΔxΔp ≥ ħ/2', 'v = s / t',
+        'U = IR', 'Ek = mv²/2', 'y = kx + b', 'lim (1 + 1/n)ⁿ = e', 'P = A / t', 'ω = 2π / T',
+        'x = (−b ± √D) / 2a', 'F = G·m₁m₂/r²', 'S = πr²', 'Q = cmΔt', 'f′(x)', 'φ = (1+√5)/2',
+        'pV = νRT', 'n = c / v', 'log₂ 8 = 3', 'E = hν', '∮ B·dl = μ₀I', 'cos 60° = ½'
+      ];
+      const palette = ['123, 92, 240', '69, 165, 150', '239, 130, 111', '106, 99, 230', '217, 138, 43'];
+
+      let W = 0, H = 0, dpr = 1, items = [], mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = window.innerWidth; H = window.innerHeight;
+        canvas.width = W * dpr; canvas.height = H * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const count = Math.round(Math.min(34, Math.max(14, (W * H) / 52000)));
+        items = Array.from({ length: count }, (_, i) => ({
+          text: formulas[i % formulas.length].replace('e^{iπ}', 'e^iπ'),
+          x: Math.random() * W,
+          y: Math.random() * H,
+          size: 14 + Math.random() * 16,
+          depth: 0.3 + Math.random() * 0.9,
+          vx: (Math.random() - .5) * 0.12,
+          vy: -0.05 - Math.random() * 0.12,
+          rot: (Math.random() - .5) * 0.5,
+          vr: (Math.random() - .5) * 0.0006,
+          color: palette[i % palette.length],
+          phase: Math.random() * Math.PI * 2,
+          alpha: 0.14 + Math.random() * 0.16
+        }));
+      }
+
+      window.addEventListener('mousemove', e => {
+        mouse.tx = (e.clientX / W - .5);
+        mouse.ty = (e.clientY / H - .5);
+      });
+
+      function drawGrid() {
+        ctx.save();
+        ctx.fillStyle = 'rgba(123, 92, 240, 0.10)';
+        const step = 32;
+        for (let x = step / 2; x < W; x += step) {
+          for (let y = step / 2; y < H; y += step) {
+            ctx.fillRect(x, y, 1.4, 1.4);
+          }
+        }
+        ctx.restore();
+      }
+
+      function drawWaves(t) {
+        const waves = [
+          { amp: 26, len: 0.006, speed: 0.00035, y: H * 0.78, color: 'rgba(123, 92, 240, 0.16)' },
+          { amp: 18, len: 0.009, speed: -0.0005, y: H * 0.82, color: 'rgba(69, 165, 150, 0.18)' },
+          { amp: 34, len: 0.004, speed: 0.00025, y: H * 0.22, color: 'rgba(239, 130, 111, 0.12)' }
+        ];
+        waves.forEach(wv => {
+          ctx.beginPath();
+          for (let x = 0; x <= W; x += 6) {
+            const y = wv.y + Math.sin(x * wv.len + t * wv.speed) * wv.amp * Math.sin(t * 0.0002 + x * 0.001);
+            x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          }
+          ctx.strokeStyle = wv.color;
+          ctx.lineWidth = 1.6;
+          ctx.stroke();
+        });
+      }
+
+      function frame(t) {
+        ctx.clearRect(0, 0, W, H);
+        drawGrid();
+        drawWaves(t || 0);
+
+        mouse.x += (mouse.tx - mouse.x) * 0.04;
+        mouse.y += (mouse.ty - mouse.y) * 0.04;
+
+        items.forEach(it => {
+          if (!reduce) {
+            it.x += it.vx * it.depth;
+            it.y += it.vy * it.depth;
+            it.rot += it.vr;
+            if (it.y < -40) { it.y = H + 40; it.x = Math.random() * W; }
+            if (it.x < -200) it.x = W + 100;
+            if (it.x > W + 200) it.x = -100;
+          }
+          const px = it.x - mouse.x * 40 * it.depth;
+          const py = it.y - mouse.y * 30 * it.depth;
+          const pulse = 0.75 + 0.25 * Math.sin((t || 0) * 0.0008 + it.phase);
+          ctx.save();
+          ctx.translate(px, py);
+          ctx.rotate(it.rot);
+          ctx.font = `italic ${Math.round(it.size * it.depth + 6)}px 'Cambria Math', 'STIX Two Math', 'Times New Roman', serif`;
+          ctx.fillStyle = `rgba(${it.color}, ${it.alpha * pulse})`;
+          ctx.fillText(it.text, 0, 0);
+          ctx.restore();
+        });
+
+        if (!reduce) requestAnimationFrame(frame);
+      }
+
+      resize();
+      window.addEventListener('resize', () => { resize(); if (reduce) frame(0); });
+      reduce ? frame(0) : requestAnimationFrame(frame);
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       buildCloud();
       startRandomShowcase();
+      startFormulaBackground();
     });
     window.addEventListener('resize', buildCloud);
   </script>
